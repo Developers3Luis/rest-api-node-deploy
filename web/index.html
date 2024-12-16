@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    article {
+        margin: 10px;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    article img {
+        width: 320px;
+        height: auto;
+        max-width: 100%;
+    }
+    article p {
+        margin: 0;
+    }
+    article:hover {
+        background-color: #f8f9fa;
+    }
+    article[data-id='1'] {
+        background-color: #f0f2f5;
+    }
+    article[data-id='2'] {
+        background-color: #e9ecef;
+    }
+    article[data-id='3'] {
+        background-color: #dee2e6;
+    }
+    article[data-id='4'] {
+        background-color: #ced4da;
+    }
+</style>
+<script type ="module">
+    fetch('http://localhost:1234/movies')
+    .then(res => res.json())
+    .then(movies => {
+        const html =  movies.map(movie=>{
+            return `
+            <article data-id="${movie.id}">
+                <h2>${movie.title}</h2>
+                <img src="${movie.poster}" alt="${movie.title}">
+                <p>${movie.genre}</p>
+            </article>`
+        }).join('');
+        document.querySelector('main').innerHTML = html;
+    })
+
+</script>
+<body>
+    <main></main>
+</body>
+</html>
