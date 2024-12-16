@@ -1,4 +1,4 @@
-const z = require('zod');
+import z from 'zod';
 
 
 
@@ -23,13 +23,12 @@ const movieSchema = z.object({
     )
 })
 
-function validateMovie(input){
+ export function validateMovie(input){
     return movieSchema.safeParse(input)
 }
 
 //valida si existe el parametro, si no existe no pasa nada, solo lo ignora y sigue su flujo
-function validatePartialMovie(input){
+export function validatePartialMovie(input){
     return movieSchema.partial( ).safeParse(input);
 }
 
-module.exports = { validateMovie , validatePartialMovie };

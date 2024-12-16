@@ -1,19 +1,24 @@
-const http = require('http');
-const express = require('express');
-const crypto = require('node:crypto');
-const moviesJSON = require('./movies/movies.json');
-const cors = require('cors');
-const { validateMovie, validatePartialMovie } = require('./schemas/movies');
+import http from 'http';
+import express, { json } from 'express';
+import { randomUUID } from 'node:crypto';
+// import moviesJSON from './movies/movies.json' with {type:"json"};
+
+import cors from 'cors';
+import { validateMovie, validatePartialMovie } from './schemas/movies.js';
+
+import fs from  'node:fs';
+const moviesJSON = JSON.parse(fs.readFileSync('./movies/movies.json', 'utf8'));
 const app = express();
 
 
-app.use(express.json());
+app.use(json());
 app.use(cors({
     origin:(origin,callback)=>{
         const ACCEPTED_ORIGINS = [
             'http://localhost:3000',
             'http://localhost:4200',
-            'http://localhost:8080'
+            'http://localhost:8080',
+            'http://localhost:1234'
         ]
 
         if(ACCEPTED_ORIGINS.includes(origin,callback)){
@@ -54,7 +59,7 @@ app.post('/movies',(req,res)=>{
     if(!result.success){ return res.status(400).json({error: JSON.parse(result.error.message)}) }
 
     const newMovie = {
-        id: crypto.randomUUID(),
+        id: randomUUID(),
         ...result.data
     }
     moviesJSON.push(newMovie);
@@ -93,5 +98,5 @@ const PORT = process.env.PORT ?? 1234;
 
 
 app.listen(PORT,()=>{
-    console.log(`server listening on port http://loscalhost:${PORT}`);
+    console.log(`server listening on port http://localhost:${PORT}`);
 })
