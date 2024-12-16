@@ -1,13 +1,11 @@
 import http from 'http';
 import express, { json } from 'express';
 import { randomUUID } from 'node:crypto';
-// import moviesJSON from './movies/movies.json' with {type:"json"};
+import moviesJSON from './movies/movies.json' with {type:"json"};
 
 import cors from 'cors';
 import { validateMovie, validatePartialMovie } from './schemas/movies.js';
 
-import fs from  'node:fs';
-const moviesJSON = JSON.parse(fs.readFileSync('./movies/movies.json', 'utf8'));
 const app = express();
 
 
